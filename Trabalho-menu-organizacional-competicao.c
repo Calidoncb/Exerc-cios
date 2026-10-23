@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define MAX 12
 typedef struct{
     char nome[50];
     int vitorias;
@@ -7,6 +8,7 @@ typedef struct{
     float pontos;
 }times_t;
 //--------------------------------------------------------------------------------------------------------//
+
 
 //--------------------------------------------------------------------------------------------------------//
 times_t registro(){
@@ -37,7 +39,7 @@ scanf("%d", &opi);
 switch(opi){
 case 1:
     printf("escreva o novo nome do time \n");
-    scanf("%s", mod.nome);
+    scanf(" %s", mod.nome);
     printf("modificacao realizada \n");
     break;
 case 2:
@@ -56,38 +58,43 @@ case 4:
     printf("modificacao realizada \n");
     break;
 }
+return mod;
 
 }
+
 times_t leitura(){
-times_t ler[12];
+times_t ler[MAX];
 FILE *arquivo;
 arquivo = fopen("registro_competidores.txt", "r");
-for(int i=0; i<12; i++){
-fscanf(arquivo, "%s %d %d %f", ler[i].nome, &ler[i].vitorias, &ler[i].derrotas, &ler[i].pontos);
+for(int i=0; i<MAX; i++){
+fscanf(arquivo, "%s %d %d %f", ler[i].nome, ler[i].vitorias, ler[i].derrotas, ler[i].pontos);
+printf("%s %d %d %f", ler[i].nome, &ler[i].vitorias, &ler[i].derrotas, &ler[i].pontos);
 }
+
 fclose(arquivo);
-return ler[12];
+return ler[];
 }
 int main(){
     FILE *arquivo;
    int opcao;
    int cont=0;
-   times_t times[12];
-   times[12]=leitura();
+   times_t times[MAX];
+   times[]=leitura();
    do{
     printf("Bem vindo ao menu da competição tal!\n");
     printf("Temos as seguintes opções: \n");
     printf("(1) - registra o time: \n ");
     printf("(2) - modifica os valores do time: \n");
+    printf("(3) - salva os arquivos \n ");
     printf("(-1) - finaliza o programa \n");
     scanf("%d", &opcao);
     switch(opcao){
      case 1:
      times[cont] = registro();
      printf("%s %d %d %f", times[cont].nome, times[cont].vitorias, times[cont].derrotas, times[cont].pontos);
-     arquivo = fopen("registro_competidores.txt", "a+");
-     fprintf(arquivo, "%d %s %d %d %.2f", cont, times[cont].nome, times[cont].vitorias, times[cont].derrotas, times[cont].pontos);
-     fclose(arquivo);
+     //arquivo = fopen("registro_competidores.txt", "a");
+     //fprintf(arquivo, "%s %d %d %.2f\n", times[cont].nome, times[cont].vitorias, times[cont].derrotas, times[cont].pontos);
+     //fclose(arquivo);
      cont = cont+1;
       break;
      case 2:
@@ -97,8 +104,16 @@ int main(){
         scanf("%d", &num);
         times[num] = modifica(times[num]);
         break;
+        case 3:
+        ;
+        arquivo = fopen("registro_competidores.txt", "a+");
+        for(int i=0; i<MAX;i++){
+        fprintf(arquivo, "%s %d %d %.2f\n", times[i].nome, times[i].vitorias, times[i].derrotas, times[i].pontos);
+        };
+        fclose(arquivo);
     }
 }while(opcao!=-1);
 
     return 0;
 }
+
